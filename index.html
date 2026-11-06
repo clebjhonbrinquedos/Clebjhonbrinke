@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clebjhon Brinquedos | Venda e Aluguel de Brinquedos Recreativos</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0284C7',
+                            yellow: '#F59E0B',
+                            red: '#EF4444',
+                            green: '#10B981',
+                            purple: '#8B5CF6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        title: ['Fredoka', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-title { font-family: 'Fredoka', cursive; }
+        .bg-pattern {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#0284c7 0.75px, transparent 0.75px), radial-gradient(#f59e0b 0.75px, #f8fafc 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- BARRA SUPERIOR DE ALERTA/CNPJ E LOGIN -->
+    <div class="bg-gradient-to-r from-sky-600 via-purple-600 to-amber-500 text-white text-xs py-2 px-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-2 font-medium">
+                <i class="fa-solid fa-certificate text-amber-300"></i>
+                <span>Empresa Especializada em Brinquedos Recreativos - Venda e Aluguel</span>
+            </div>
+            <div class="flex items-center space-x-3 font-semibold">
+                <span class="bg-white/20 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-id-card mr-1"></i> CNPJ: 69.078.716/0001-08</span>
+                <span>|</span>
+                <button onclick="toggleLoginModal()" class="bg-amber-400 hover:bg-amber-300 text-slate-900 px-3 py-1 rounded-full font-bold flex items-center gap-1 transition-colors shadow-sm">
+                    <i class="fa-solid fa-user-lock"></i> Área do Vendedor
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CABEÇALHO / NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- LOGO CLEBJHONS BRINQUEDOS -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-gradient-to-tr from-sky-500 via-amber-400 to-rose-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-title text-2xl font-bold bg-gradient-to-r from-sky-600 via-purple-600 to-rose-500 bg-clip-text text-transparent block leading-tight">
+                        CLEBJHONS
+                    </span>
+                    <span class="text-xs font-bold tracking-widest text-amber-500 uppercase block">BRINQUEDOS</span>
+                </div>
+            </a>
+
+            <!-- NAVEGAÇÃO DESKTOP -->
+            <nav class="hidden md:flex items-center gap-6 font-medium text-slate-600 text-sm">
+                <a href="#produtos" class="hover:text-sky-600 transition-colors">Produtos & Brinquedos</a>
+                <a href="#modalidades" class="hover:text-sky-600 transition-colors">Aluguel ou Venda</a>
+                <a href="#simulador" class="hover:text-sky-600 transition-colors">Simulador de Eventos</a>
+                <a href="#sobre" class="hover:text-sky-600 transition-colors">Sobre Nós</a>
+                <button onclick="toggleLoginModal()" class="text-purple-600 font-bold hover:text-purple-700 transition-colors flex items-center gap-1 bg-purple-50 px-3 py-1.5 rounded-xl border border-purple-100">
+                    <i class="fa-solid fa-chart-line"></i> Painel Vendas
+                </button>
+            </nav>
+
+            <!-- BOTAO ORÇAMENTO/CARRINHO -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartDrawer()" class="relative bg-sky-50 hover:bg-sky-100 text-sky-600 p-3 rounded-2xl transition-colors">
+                    <i class="fa-solid fa-basket-shopping text-xl"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+                
+                <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20brinquedos." target="_blank" class="hidden sm:flex bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-md transition-all items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Falar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER HERO -->
+    <section class="relative bg-pattern py-12 lg:py-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full">
+                        <i class="fa-solid fa-star text-amber-500"></i> Brinquedos Novos, Higienizados e Seguros
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight">
+                        A Diversão Perfeita para Seu <span class="bg-gradient-to-r from-sky-500 via-purple-500 to-rose-500 bg-clip-text text-transparent">Evento ou Espaço!</span>
+                    </h1>
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+                        Vendemos e alugamos <strong>Piscinas de Bolinha, Tobogãs Infláveis, Tombo Legal Eletrônico, Cama Elástica, Playgrounds</strong> e muito mais com entrega rápida e montagem profissional.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                        <a href="#produtos" class="bg-sky-500 hover:bg-sky-600 text-white px-6 py-3.5 rounded-2xl font-title font-bold text-lg shadow-lg hover:shadow-sky-500/30 transition-all text-center">
+                            Ver Nossos Brinquedos
+                        </a>
+                        <a href="#simulador" class="bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 px-6 py-3.5 rounded-2xl font-title font-bold text-lg transition-all text-center">
+                            Monte Seu Pacote
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="p-4 bg-sky-50 rounded-2xl border border-sky-100">
+                            <i class="fa-solid fa-truck-ramp-box text-3xl text-sky-500 mb-2"></i>
+                            <h4 class="font-bold text-slate-800 text-sm">Entrega e Montagem</h4>
+                            <p class="text-xs text-slate-500">Equipe treinada para montagem segura</p>
+                        </div>
+                        <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                            <i class="fa-solid fa-shield-heart text-3xl text-amber-500 mb-2"></i>
+                            <h4 class="font-bold text-slate-800 text-sm">100% Higienizados</h4>
+                            <p class="text-xs text-slate-500">Limpeza rigorosa antes de cada entrega</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                            <i class="fa-solid fa-bolt text-3xl text-purple-500 mb-2"></i>
+                            <h4 class="font-bold text-slate-800 text-sm">Tombo Legal</h4>
+                            <p class="text-xs text-slate-500">Modelos eletrônicos com leds e som</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                            <i class="fa-solid fa-tags text-3xl text-emerald-500 mb-2"></i>
+                            <h4 class="font-bold text-slate-800 text-sm">Venda & Aluguel</h4>
+                            <p class="text-xs text-slate-500">Condições especiais para empresas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATALOGO DE PRODUTOS -->
+    <section id="produtos" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Nosso Catálogo de Brinquedos</h2>
+                <p class="text-slate-500 text-sm">Escolha entre venda ou locação para festas, buffets, escolas e eventos em geral.</p>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+                <!-- CATEGORIAS -->
+                <div class="flex flex-wrap gap-2 justify-center" id="category-chips">
+                    <!-- Gerado via JS -->
+                </div>
+
+                <!-- SELECT TIPO (ALUGUEL / VENDA / TODOS) -->
+                <div class="bg-slate-100 p-1 rounded-2xl flex border border-slate-200">
+                    <button onclick="setFilterMode('todos')" id="btn-mode-todos" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-800 shadow-sm">Todos</button>
+                    <button onclick="setFilterMode('aluguel')" id="btn-mode-aluguel" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900">Apenas Aluguel</button>
+                    <button onclick="setFilterMode('venda')" id="btn-mode-venda" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900">Apenas Venda</button>
+                </div>
+            </div>
+
+            <!-- GRID DE PRODUTOS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="products-grid">
+                <!-- Renderizado dinamicamente via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SIMULADOR DE EVENTOS E ORÇAMENTO -->
+    <section id="simulador" class="py-16 bg-slate-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200">
+                <div class="text-center mb-8">
+                    <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Simulação Rápida</span>
+                    <h2 class="text-3xl font-bold text-slate-900 mt-2">Monte seu Orçamento Personalizado</h2>
+                    <p class="text-slate-500 text-sm mt-1">Selecione os brinquedos e detalhes do evento para envio instantâneo no WhatsApp.</p>
+                </div>
+
+                <form id="simulator-form" onsubmit="handleSimulatorSubmit(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">1. Escolha os brinquedos desejados:</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="simulator-checkboxes">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Data do Evento</label>
+                            <input type="date" id="sim-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 text-sm focus:outline-none focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Tipo de Local / Piso</label>
+                            <select id="sim-floor" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 text-sm focus:outline-none focus:border-sky-500">
+                                <option value="Grama Sintética ou Natural">Grama Sintética ou Natural</option>
+                                <option value="Piso Liso / Salão de Festas">Piso Liso / Salão de Festas</option>
+                                <option value="Quadra / Cimento">Quadra / Cimento</option>
+                                <option value="Terra / Areia">Terra / Areia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Seu Nome</label>
+                            <input type="text" id="sim-name" required placeholder="Ex: Ana Paula" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 text-sm focus:outline-none focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Bairro / Cidade da Entrega</label>
+                            <input type="text" id="sim-city" required placeholder="Ex: Moema - São Paulo/SP" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 text-sm focus:outline-none focus:border-sky-500">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-title font-bold text-lg py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i> Solicitar Orçamento no WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAINEL DE VENDAS E GESTÃO (ÁREA RESTRITA DO VENDEDOR) -->
+    <section id="painel-vendas" class="hidden py-12 bg-slate-900 text-white min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- HEADER PAINEL -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-shield-halved"></i> Sistema Interno - Clebjhon Brinquedos
+                    </div>
+                    <h2 class="font-title text-3xl font-bold">Painel do Vendedor & Cobranças</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="seller-name-display" class="bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 text-xs text-slate-300">
+                        <i class="fa-solid fa-user-check text-emerald-400 mr-2"></i> Vendedor Autenticado
+                    </span>
+                    <button onclick="logoutSalesPanel()" class="bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white px-4 py-2 rounded-xl font-bold text-xs transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sair do Painel
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARDS DE METRICAS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-slate-800 border border-slate-700/70 rounded-2xl p-5">
+                    <span class="text-xs text-slate-400 font-medium">Vendas / Aluguéis Hoje</span>
+                    <div class="flex justify-between items-end mt-2">
+                        <span class="font-title text-3xl font-bold text-sky-400" id="dash-today-count">5</span>
+                        <span class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded">+18%</span>
+                    </div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700/70 rounded-2xl p-5">
+                    <span class="text-xs text-slate-400 font-medium">Faturamento Estimado</span>
+                    <div class="flex justify-between items-end mt-2">
+                        <span class="font-title text-3xl font-bold text-emerald-400" id="dash-revenue">R$ 4.280,00</span>
+                        <span class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded">Hoje</span>
+                    </div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700/70 rounded-2xl p-5">
+                    <span class="text-xs text-slate-400 font-medium">Cobranças Pendentes</span>
+                    <div class="flex justify-between items-end mt-2">
+                        <span class="font-title text-3xl font-bold text-amber-400" id="dash-pending">2</span>
+                        <span class="text-xs text-amber-400 font-bold bg-amber-500/10 px-2 py-1 rounded">Aguardando</span>
+                    </div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700/70 rounded-2xl p-5">
+                    <span class="text-xs text-slate-400 font-medium">Equipamentos Alugados</span>
+                    <div class="flex justify-between items-end mt-2">
+                        <span class="font-title text-3xl font-bold text-purple-400">9</span>
+                        <span class="text-xs text-purple-400 font-bold bg-purple-500/10 px-2 py-1 rounded">Em campo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE COBRANCA E TABELA -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- EMISSOR DE COBRANCAS -->
+                <div class="lg:col-span-1 bg-slate-800 border border-slate-700 rounded-3xl p-6 shadow-xl">
+                    <h3 class="font-title text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-file-invoice-dollar text-emerald-400"></i> Gerar Nova Cobrança / PIX
+                    </h3>
+                    
+                    <form id="new-charge-form" onsubmit="createCharge(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-slate-300 font-semibold mb-1">Nome do Cliente</label>
+                            <input type="text" id="charge-client" required placeholder="Ex: Carlos Silva" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-300 font-semibold mb-1">Valor da Cobrança (R$)</label>
+                            <input type="number" step="0.01" id="charge-amount" required placeholder="0,00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-300 font-semibold mb-1">Tipo de Operação</label>
+                            <select id="charge-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-sm">
+                                <option value="Aluguel">Aluguel de Brinquedo</option>
+                                <option value="Venda">Venda de Brinquedo</option>
+                                <option value="Sinal/Reserva">Sinal / Reserva (50%)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-300 font-semibold mb-1">Descrição dos Produtos</label>
+                            <input type="text" id="charge-desc" required placeholder="Ex: Tobogã Inflável + Tombo Legal" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-300 font-semibold mb-1">Forma de Pagamento</label>
+                            <select id="charge-method" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-sm">
+                                <option value="PIX">PIX (Instantâneo)</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                <option value="Dinheiro no Local">Dinheiro no Local</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-qrcode"></i> Gerar QrCode PIX / Link
+                        </button>
+                    </form>
+                </div>
+
+                <!-- TABELA DE VENDAS -->
+                <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-3xl p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-title text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-sky-400"></i> Histórico de Registros
+                        </h3>
+                        <span class="text-xs text-slate-400">Clique na ação para alterar o status</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-400 uppercase font-semibold">
+                                    <th class="py-3 px-2">ID</th>
+                                    <th class="py-3 px-2">Cliente</th>
+                                    <th class="py-3 px-2">Descrição</th>
+                                    <th class="py-3 px-2">Valor</th>
+                                    <th class="py-3 px-2">Status</th>
+                                    <th class="py-3 px-2 text-right">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sales-table-body" class="divide-y divide-slate-700/50 text-slate-200">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE NÓS -->
+    <section id="sobre" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-sky-600 font-bold text-xs uppercase tracking-wider">Tradição & Qualidade</span>
+                    <h2 class="text-3xl font-bold text-slate-900 mt-1 mb-4">Sobre a Clebjhon Brinquedos</h2>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        A <strong>Clebjhon Brinquedos</strong> é referência no mercado de venda e aluguel de brinquedos recreativos. Trabalhamos com equipamentos de altíssima resistência, atendendo festas infantis, eventos corporativos, escolas, condomínios e buffets.
+                    </p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Nossa missão é garantir sorrisos com total segurança. Todos os nossos produtos seguem rígidos padrões de higiene, conservação e revisão técnica antes de cada locação ou entrega.
+                    </p>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-building-shield"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">Razão Social & Dados Oficiais</h4>
+                            <p class="text-xs text-slate-500">CNPJ: 69.078.716/0001-08 | Empresa Registrada</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-tr from-sky-500 to-purple-600 rounded-3xl p-8 text-white shadow-xl">
+                    <h3 class="font-title text-2xl font-bold mb-4">Diferenciais Clebjhon</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-amber-300"></i> Atendimento ágil e flexível para locação</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-amber-300"></i> Brinquedos eletrônicos com manutenção em dia</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-amber-300"></i> Entrega e montagem pontuais no seu evento</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-amber-300"></i> Venda com garantia e assistência técnica</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="font-title text-white text-lg font-bold mb-3">Clebjhon Brinquedos</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-3">Venda e Locação de brinquedos recreativos para tornar seu evento inesquecível.</p>
+                    <span class="text-slate-300 font-semibold block">CNPJ: 69.078.716/0001-08</span>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Categorias</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#produtos" class="hover:text-white transition-colors">Piscina de Bolinha</a></li>
+                        <li><a href="#produtos" class="hover:text-white transition-colors">Pula Pula / Cama Elástica</a></li>
+                        <li><a href="#produtos" class="hover:text-white transition-colors">Tobogãs Infláveis</a></li>
+                        <li><a href="#produtos" class="hover:text-white transition-colors">Tombo Legal Eletrônico</a></li>
+                        <li><a href="#produtos" class="hover:text-white transition-colors">Playgrounds Completos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Links Rápidos</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#simulador" class="hover:text-white transition-colors">Simulador de Eventos</a></li>
+                        <li><a href="#sobre" class="hover:text-white transition-colors">Sobre a Empresa</a></li>
+                        <li><button onclick="toggleLoginModal()" class="text-amber-400 hover:underline font-bold">Área Restrita do Vendedor</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Atendimento</h5>
+                    <p class="text-slate-400 mb-2"><i class="fa-brands fa-whatsapp text-emerald-400 mr-1"></i> (11) 99999-9999</p>
+                    <p class="text-slate-400 mb-4"><i class="fa-solid fa-envelope text-sky-400 mr-1"></i> contato@clebjhonbrinquedos.com.br</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-8 h-8 bg-slate-800 hover:bg-sky-500 hover:text-white rounded-lg flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 bg-slate-800 hover:bg-blue-600 hover:text-white rounded-lg flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800 text-center text-slate-500">
+                <p>&copy; 2026 Clebjhon Brinquedos - CNPJ: 69.078.716/0001-08. Todos os direitos reservados. Hospedado no GitHub Pages.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE DETALHES DO PRODUTO -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-2xl w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="product-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE LOGIN VENDEDOR -->
+    <div id="login-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="toggleLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-amber-400/10 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-amber-400/20">
+                    <i class="fa-solid fa-user-gear text-2xl"></i>
+                </div>
+                <h3 class="font-title text-2xl font-bold">Portal do Vendedor</h3>
+                <p class="text-slate-400 text-xs mt-1">Clebjhon Brinquedos - Gestão Interna</p>
+            </div>
+
+            <form id="login-form" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Usuário / Código</label>
+                    <input type="text" id="login-user" required value="vendedor" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Senha de Acesso</label>
+                    <input type="password" id="login-pass" required value="123456" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-400 text-sm">
+                </div>
+
+                <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 text-[11px] text-slate-400">
+                    <span class="font-bold text-amber-400 block mb-0.5">Credenciais de Teste:</span>
+                    Usuário: <code class="text-white">vendedor</code> | Senha: <code class="text-white">123456</code>
+                </div>
+
+                <button type="submit" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-title font-bold py-3 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-key"></i> Entrar no Painel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL COBRANÇA GERADA PIX -->
+    <div id="charge-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-md w-full p-6 relative shadow-2xl text-center">
+            <button onclick="closeChargeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fa-solid fa-check text-2xl"></i>
+            </div>
+            <h3 class="font-title text-xl font-bold mb-1">Cobrança Gerada com Sucesso!</h3>
+            <p class="text-xs text-slate-400 mb-4">CNPJ: 69.078.716/0001-08 - Clebjhon Brinquedos</p>
+
+            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 text-left space-y-2 mb-4 text-xs">
+                <div class="flex justify-between"><span class="text-slate-400">Cliente:</span><span id="modal-c-client" class="font-bold"></span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Valor:</span><span id="modal-c-val" class="font-bold text-emerald-400"></span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Operação:</span><span id="modal-c-type" class="font-bold"></span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Descrição:</span><span id="modal-c-desc" class="font-bold truncate max-w-[180px]"></span></div>
+            </div>
+
+            <!-- QR CODE SVG -->
+            <div class="bg-white p-4 rounded-2xl inline-block mb-4">
+                <svg class="w-36 h-36 mx-auto text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                    <rect x="0" y="0" width="100" height="100" fill="white" />
+                    <path d="M10 10h30v30H10zM15 15v20h20V15zM20 20h10v10H20zM60 10h30v30H60zM65 15v20h20V15zM70 20h10v10H70zM10 60h30v30H10zM15 65v20h20V65zM20 70h10v10H20zM45 10h10v10H45zM45 30h10v10H45zM45 50h10v10H45zM45 70h10v20H45zM60 60h10v10H60zM70 50h20v10H70zM80 70h10v20H80z" />
+                </svg>
+            </div>
+
+            <div class="space-y-2">
+                <button onclick="copyPixCode()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-copy"></i> Copiar PIX Copia e Cola
+                </button>
+                <button onclick="sendChargeWhatsApp()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Enviar Cobrança no WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAWER CARRINHO / ORÇAMENTO -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
+            <h3 class="font-title text-lg font-bold flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-amber-400"></i> Seu Carrinho / Lista
+            </h3>
+            <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="cart-items" class="p-4 flex-1 overflow-y-auto divide-y divide-slate-100">
+            <!-- Itens do carrinho -->
+        </div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
+            <div class="flex justify-between items-center text-sm font-bold text-slate-800">
+                <span>Subtotal Estimado:</span>
+                <span id="cart-total" class="text-emerald-600">R$ 0,00</span>
+            </div>
+            <button onclick="checkoutCart()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow flex items-center justify-center gap-2 text-sm">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Enviar Pedido via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT PRINCIPAL DA APLICAÇÃO -->
+    <script>
+        // BASE DE DADOS DOS PRODUTOS
+        const products = [
+            {
+                id: 1,
+                name: "Piscina de Bolinhas Mágica",
+                category: "Piscina de Bolinhas",
+                mode: "ambos",
+                priceRent: 150.00,
+                priceBuy: 1850.00,
+                desc: "Piscina de bolinhas 1.5m x 1.5m com mais de 1.500 bolinhas atóxicas coloridas. Ideal para festas infantis e espaços kids.",
+                iconBg: "from-amber-400 to-rose-400"
+            },
+            {
+                id: 2,
+                name: "Cama Elástica / Pula-Pula 3,05m",
+                category: "Pula-Pula",
+                mode: "ambos",
+                priceRent: 180.00,
+                priceBuy: 2400.00,
+                desc: "Estrutura de aço galvanizado, proteção de molas reforçada e rede de proteção de alta segurança.",
+                iconBg: "from-sky-400 to-blue-600"
+            },
+            {
+                id: 3,
+                name: "Tobogã Inflável Premium",
+                category: "Tobogãs Infláveis",
+                mode: "ambos",
+                priceRent: 350.00,
+                priceBuy: 5900.00,
+                desc: "Tobogã inflável gigante com motor soprador bivolt. Design atraente e alta capacidade de retenção de crianças.",
+                iconBg: "from-purple-500 to-indigo-600"
+            },
+            {
+                id: 4,
+                name: "Tombo Legal Eletrônico Standard",
+                category: "Tombo Legal",
+                mode: "ambos",
+                priceRent: 300.00,
+                priceBuy: 4500.00,
+                desc: "Brinquedo eletrônico com painel de led, acionamento automático por alvo e colchão de piscina de bolinhas.",
+                iconBg: "from-emerald-400 to-teal-600"
+            },
+            {
+                id: 5,
+                name: "Tombo Legal Eletrônico Deluxe (Som + Luzes)",
+                category: "Tombo Legal",
+                mode: "ambos",
+                priceRent: 420.00,
+                priceBuy: 6200.00,
+                desc: "Modelo topo de linha com placar digital, efeito de iluminação RGB e efeitos sonoros ao acertar o alvo.",
+                iconBg: "from-rose-500 to-red-600"
+            },
+            {
+                id: 6,
+                name: "Gangorra Plastico Divertida (Par)",
+                category: "Gangorras",
+                mode: "venda",
+                priceRent: 0,
+                priceBuy: 280.00,
+                desc: "Gangorra em plástico rotomoldado ultra resistente, sem cantos vivos e com apoio para os pés.",
+                iconBg: "from-amber-500 to-yellow-600"
+            },
+            {
+                id: 7,
+                name: "Playground Completo com Escorregador",
+                category: "Playgrounds",
+                mode: "ambos",
+                priceRent: 290.00,
+                priceBuy: 3800.00,
+                desc: "Playground modular com escorregador, rampa de escalada e túnel recreativo. Para condomínios e buffets.",
+                iconBg: "from-cyan-500 to-blue-500"
+            },
+            {
+                id: 8,
+                name: "Piscina de Bolinhas Inflável Coberta",
+                category: "Piscina de Bolinhas",
+                mode: "ambos",
+                priceRent: 220.00,
+                priceBuy: 2950.00,
+                desc: "Modelo inflável tematizado com cobertura para proteção contra sol leve. Acompanha bolinhas.",
+                iconBg: "from-pink-500 to-purple-500"
+            }
+        ];
+
+        let currentCategory = 'todos';
+        let currentMode = 'todos';
+        let cart = [];
+
+        // DADOS SIMULADOS DE VENDAS
+        let salesList = [
+            { id: "CB-104", client: "Festa Maria Clara", item: "Tobogã Inflável Premium", amount: 350.00, status: "Pago", type: "Aluguel" },
+            { id: "CB-103", client: "Condomínio Alvorada", item: "Playground Completo", amount: 3800.00, status: "Pago", type: "Venda" },
+            { id: "CB-102", client: "Buffet Alegria", item: "Tombo Legal Eletrônico Deluxe", amount: 420.00, status: "Pendente", type: "Aluguel" }
+        ];
+
+        let lastGeneratedCharge = null;
+
+        // INICIALIZAÇÃO NATIVA
+        window.onload = function() {
+            renderCategoryChips();
+            renderProducts();
+            renderSimulatorCheckboxes();
+            renderSalesTable();
+        };
+
+        function renderCategoryChips() {
+            const categories = ['todos', ...new Set(products.map(p => p.category))];
+            const container = document.getElementById('category-chips');
+            if(!container) return;
+
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat}')" 
+                    class="px-3 py-1.5 rounded-full text-xs font-bold transition-all ${currentCategory === cat ? 'bg-sky-500 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                    ${cat === 'todos' ? 'Todas Categorias' : cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            renderCategoryChips();
+            renderProducts();
+        }
+
+        function setFilterMode(mode) {
+            currentMode = mode;
+            ['todos', 'aluguel', 'venda'].forEach(m => {
+                const btn = document.getElementById(`btn-mode-${m}`);
+                if(btn) {
+                    if(m === mode) {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-800 shadow-sm";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
+                    }
+                }
+            });
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            if(!grid) return;
+
+            const filtered = products.filter(p => {
+                const catMatch = currentCategory === 'todos' || p.category === currentCategory;
+                const modeMatch = currentMode === 'todos' || 
+                                 (currentMode === 'aluguel' && (p.mode === 'aluguel' || p.mode === 'ambos')) ||
+                                 (currentMode === 'venda' && (p.mode === 'venda' || p.mode === 'ambos'));
+                return catMatch && modeMatch;
+            });
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-44 bg-gradient-to-tr ${p.iconBg} p-6 flex items-center justify-center relative">
+                            <i class="fa-solid fa-gamepad text-6xl text-white opacity-80"></i>
+                            <span class="absolute top-3 right-3 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                ${p.category}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-title text-lg font-bold text-slate-800 mb-1">${p.name}</h3>
+                            <p class="text-xs text-slate-500 line-clamp-2 mb-4">${p.desc}</p>
+                            
+                            <div class="space-y-1 text-xs">
+                                ${p.priceRent > 0 ? `<div class="flex justify-between"><span class="text-slate-400">Aluguel (Diária):</span><span class="font-bold text-sky-600">R$ ${p.priceRent.toFixed(2)}</span></div>` : ''}
+                                ${p.priceBuy > 0 ? `<div class="flex justify-between"><span class="text-slate-400">Venda (Novo):</span><span class="font-bold text-emerald-600">R$ ${p.priceBuy.toFixed(2)}</span></div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex gap-2">
+                        <button onclick="openProductModal(${p.id})" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs transition-colors">
+                            Detalhes
+                        </button>
+                        <button onclick="addToCart(${p.id})" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-xl text-xs shadow-sm transition-colors flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-cart-plus"></i> Adicionar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openProductModal(id) {
+            const p = products.find(item => item.id === id);
+            if(!p) return;
+
+            const modalBody = document.getElementById('product-modal-body');
+            modalBody.innerHTML = `
+                <div class="h-48 bg-gradient-to-tr ${p.iconBg} rounded-2xl flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-shapes text-7xl text-white opacity-80"></i>
+                </div>
+                <span class="text-xs font-bold text-sky-600 uppercase tracking-wider">${p.category}</span>
+                <h3 class="font-title text-2xl font-bold text-slate-800 mb-2">${p.name}</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">${p.desc}</p>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2 text-sm mb-6">
+                    ${p.priceRent > 0 ? `<div class="flex justify-between"><span>Valor Estimado do Aluguel:</span><strong class="text-sky-600">R$ ${p.priceRent.toFixed(2)} / evento</strong></div>` : ''}
+                    ${p.priceBuy > 0 ? `<div class="flex justify-between"><span>Valor de Venda (Novo):</span><strong class="text-emerald-600">R$ ${p.priceBuy.toFixed(2)}</strong></div>` : ''}
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="addToCart(${p.id}); closeProductModal();" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+                        Adicionar ao Orçamento
+                    </button>
+                </div>
+            `;
+
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // SIMULADOR
+        function renderSimulatorCheckboxes() {
+            const container = document.getElementById('simulator-checkboxes');
+            if(!container) return;
+
+            container.innerHTML = products.map(p => `
+                <label class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 hover:border-sky-300 cursor-pointer text-xs">
+                    <input type="checkbox" value="${p.name}" class="sim-check rounded text-sky-500 focus:ring-sky-400">
+                    <span class="font-medium text-slate-700 truncate">${p.name}</span>
+                </label>
+            `).join('');
+        }
+
+        function handleSimulatorSubmit(e) {
+            e.preventDefault();
+            const selected = Array.from(document.querySelectorAll('.sim-check:checked')).map(cb => cb.value);
+            
+            if(selected.length === 0) {
+                alert('Por favor, selecione ao menos um brinquedo no simulador.');
+                return;
+            }
+
+            const name = document.getElementById('sim-name').value;
+            const date = document.getElementById('sim-date').value;
+            const floor = document.getElementById('sim-floor').value;
+            const city = document.getElementById('sim-city').value;
+
+            const text = `*SOLICITAÇÃO DE ORÇAMENTO - CLEBJHON BRINQUEDOS*\n\n*Nome:* ${name}\n*Data do Evento:* ${date}\n*Local/Cidade:* ${city}\n*Tipo de Piso:* ${floor}\n\n*Brinquedos Desejados:*\n- ${selected.join('\n- ')}\n\nAguardo retorno com disponibilidade e valores!`;
+
+            window.open(`https://wa.me/5511999999999?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // CARRINHO
+        function addToCart(id) {
+            const p = products.find(item => item.id === id);
+            if(p) {
+                cart.push(p);
+                updateCartUI();
+                toggleCartDrawer(true);
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const items = document.getElementById('cart-items');
+            const total = document.getElementById('cart-total');
+
+            if(badge) {
+                badge.innerText = cart.length;
+                badge.classList.toggle('hidden', cart.length === 0);
+            }
+
+            if(items) {
+                if(cart.length === 0) {
+                    items.innerHTML = `<p class="text-center text-slate-400 text-xs py-8">Seu carrinho está vazio.</p>`;
+                } else {
+                    items.innerHTML = cart.map((item, idx) => `
+                        <div class="py-3 flex justify-between items-center text-xs">
+                            <div>
+                                <h4 class="font-bold text-slate-800">${item.name}</h4>
+                                <span class="text-slate-400">R$ ${(item.priceRent || item.priceBuy).toFixed(2)}</span>
+                            </div>
+                            <button onclick="removeFromCart(${idx})" class="text-rose-500 hover:text-rose-700">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            if(total) {
+                const sum = cart.reduce((acc, i) => acc + (i.priceRent || i.priceBuy), 0);
+                total.innerText = `R$ ${sum.toFixed(2)}`;
+            }
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            if(!drawer) return;
+            if(open === true) {
+                drawer.classList.remove('translate-x-full');
+            } else if(open === false) {
+                drawer.classList.add('translate-x-full');
+            } else {
+                drawer.classList.toggle('translate-x-full');
+            }
+        }
+
+        function checkoutCart() {
+            if(cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            const itemsText = cart.map(i => `- ${i.name}`).join('\n');
+            const text = `*SOLICITAÇÃO DE ORÇAMENTO (CARRINHO CLEBJHON)*\n\nBrinquedos selecionados:\n${itemsText}\n\nGostaria de verificar a disponibilidade para locação/venda!`;
+            window.open(`https://wa.me/5511999999999?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // LOGIN E PAINEL VENDEDOR
+        function toggleLoginModal() {
+            const modal = document.getElementById('login-modal');
+            if(!modal) return;
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
+
+            if (user === 'vendedor' && pass === '123456') {
+                toggleLoginModal();
+                const panel = document.getElementById('painel-vendas');
+                panel.classList.remove('hidden');
+                panel.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('seller-name-display').innerHTML = `<i class="fa-solid fa-user-check text-emerald-400 mr-2"></i> ${user.toUpperCase()}`;
+            } else {
+                alert('Usuário ou senha incorretos! Digite vendedor / 123456');
+            }
+        }
+
+        function logoutSalesPanel() {
+            document.getElementById('painel-vendas').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderSalesTable() {
+            const tbody = document.getElementById('sales-table-body');
+            if(!tbody) return;
+
+            tbody.innerHTML = salesList.map(s => {
+                let badgeClass = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+                if(s.status === 'Pago') badgeClass = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+
+                return `
+                    <tr class="hover:bg-slate-700/30">
+                        <td class="py-3 px-2 font-mono text-slate-400">${s.id}</td>
+                        <td class="py-3 px-2 font-bold">${s.client}</td>
+                        <td class="py-3 px-2 text-slate-300">${s.item}</td>
+                        <td class="py-3 px-2 font-bold text-emerald-400">R$ ${s.amount.toFixed(2)}</td>
+                        <td class="py-3 px-2">
+                            <span class="px-2 py-0.5 rounded-full border text-[10px] font-bold ${badgeClass}">
+                                ${s.status}
+                            </span>
+                        </td>
+                        <td class="py-3 px-2 text-right">
+                            <button onclick="toggleSaleStatus('${s.id}')" class="bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded text-[10px] font-semibold">
+                                Alternar Status
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function toggleSaleStatus(id) {
+            const s = salesList.find(item => item.id === id);
+            if(s) {
+                s.status = s.status === 'Pendente' ? 'Pago' : 'Pendente';
+                renderSalesTable();
+            }
+        }
+
+        function createCharge(e) {
+            e.preventDefault();
+            const client = document.getElementById('charge-client').value;
+            const amount = parseFloat(document.getElementById('charge-amount').value);
+            const type = document.getElementById('charge-type').value;
+            const desc = document.getElementById('charge-desc').value;
+
+            const newSale = {
+                id: `CB-${105 + salesList.length}`,
+                client: client,
+                item: desc,
+                amount: amount,
+                status: "Pendente",
+                type: type
+            };
+
+            salesList.unshift(newSale);
+            renderSalesTable();
+            lastGeneratedCharge = newSale;
+
+            document.getElementById('modal-c-client').innerText = client;
+            document.getElementById('modal-c-val').innerText = `R$ ${amount.toFixed(2)}`;
+            document.getElementById('modal-c-type').innerText = type;
+            document.getElementById('modal-c-desc').innerText = desc;
+
+            document.getElementById('new-charge-form').reset();
+            
+            const cModal = document.getElementById('charge-modal');
+            cModal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeChargeModal() {
+            document.getElementById('charge-modal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function copyPixCode() {
+            const code = `00020126580014br.gov.bcb.pix0136690787160001085204000053039865405${lastGeneratedCharge ? lastGeneratedCharge.amount.toFixed(2) : '100.00'}5802BR5919ClebjhonBrinquedos6009SaoPaulo62070503***6304E8A1`;
+            
+            const temp = document.createElement('input');
+            temp.value = code;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            alert('Código PIX Copia e Cola copiado com sucesso!');
+        }
+
+        function sendChargeWhatsApp() {
+            if(!lastGeneratedCharge) return;
+            const msg = `*COBRANÇA CLEBJHON BRINQUEDOS*\nCNPJ: 69.078.716/0001-08\n\n*Cliente:* ${lastGeneratedCharge.client}\n*Descrição:* ${lastGeneratedCharge.item}\n*Valor:* R$ ${lastGeneratedCharge.amount.toFixed(2)}\n\nChave PIX CNPJ: 69.078.716/0001-08\nPor favor envie o comprovante por aqui assim que efetuar o pagamento.`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
